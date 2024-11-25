@@ -1,0 +1,105 @@
+#### 1. you need to start with:
+    # install java, must be the 1st line
+FROM node:lts-jod
+LABEL maintainer="Samuel"
+
+#### 2. how to build the application's docker image
+    #create a directory /app and change directory into /app
+    #code for dir creation while outside of /app and access at the same thing
+WORKDIR /app
+
+#### 3. while inside of /app directory
+    #copy files from the system into the docker image, the use of . depends on where the dockerfile is stored in relation to other files
+    #we dont need git/docker/mvnw.cmd in the image
+    # grab .mvn/mvnw(not mvnw.cmd)/pom.xml/src
+        # hidden directories use .mvn .mvn etc.
+        # normal directories use public public etc.
+        # files use file_name .
+        # techinically, we copying main.js in the dockerfile's current directory into the image's working directory denoted with .
+#copy files over to src destination
+COPY main.js .
+COPY metrics.js .
+COPY package.json .
+COPY package-lock.json .
+COPY public public
+COPY views views
+
+#### 4. building the jar file("./target/exercise-0.01.1-SNAPSHOT.jar"), should be found in target folder
+    # RUN /app/mvnw ...... (full name below)
+    # RUN ./mvnw package -Dmaven.test.skip=true
+
+#### 5. making the jar executable for windows + railway
+############# RUN chmod a+x ./mvnw && ./mvnw package -Dmaven.test.skip=true# 
+
+#### 5.5. RUN command for docker to execute
+RUN ./main.js
+
+
+#### 6. how to run the application
+# sets server port -> for documentation, so ppl know what port to use
+    # ENV SERVER_PORT=8080
+#PORT for railway version below (doesnt really matter)
+ENV PORT=8080
+
+#### 7. Exposing the port the application needs
+#EXPOSE ${SERVER_PORT}
+#EXPOSE for railway version (doesnt really matter)
+EXPOSE ${PORT}
+
+#### 8. running the application
+    # ensure mvn package is ran at least once to get jar file name
+# ENTRYPOINT java -jar target/exercise-0.0.1-SNAPSHOT.jar
+
+#### 8.5. running for railway version of application
+    #SERVER_PORT is spring boot specific
+ENTRYPOINT SERVER_PORT=${PORT} java -jar target/exercise-0.0.1-SNAPSHOT.jar
+
+
+### 9. relevant terminal code
+########docker image build -t sphuar/ssf-day14:v1.0.0 . (context '.' being where the imporatnt files are relative to Dockerfile path)
+        #if Dockerfile is not named Dockerfile
+            #docker image build -t sphuar/ssf-day14:v1.0.0 -f new_docker_filename . (context '.' being where the imporatnt files are relative to Dockerfile path)
+                                    #name/image_name/version/dockerfilename/context
+    #modified CLI code for railway version
+        #docker image build -t sphuar/ssf-day14:v1.0.0-railway .
+
+#docker image ls, checks pulled (chuks) images as well
+    # check status of created image
+
+# actually run the image this time
+    ## docker run -d -p 12345:8080 sphuar/ssf-day14:v1.0.0
+    # -detach -port-binding host_port:container_port image_name
+
+# check run status
+    #docker ps -a
+
+#exit docker
+    # docker container stop "1st 4 digits of container id"
+
+# delete docker container
+    # docker container rm "1st 4 digits of container id"
+
+# delete docker image
+    # docker image rm "1st 4 digits of conatainer id"
+
+# restart docker
+    # docker start "1st 4 digits of container id"
+    
+# check logs
+    # docker logs "1st 4 digits of container id"
+
+
+## pushing to docker
+    #docker login
+    #docker push sphuar/ssf-day14:v1.0.0
+        #same as saying docker push docker.io ... 
+
+## pulling from docker, if we want to run it -> use above code
+    #docker image pull chukmunnlee/ssf-day13:v1.0.0
+
+
+# changing pulled PORT env variable from cli using -e (sometimes pulled containers need a specific port, we force them to use our 8080)
+    # the container might be hardcoded with port set to 3000, use below to access image with localhost:8080
+    # docker container run -d -e SERVER_PORT=3000 -p 8080:3000 sphuar/ssf-day14:v1.0.0
+
+

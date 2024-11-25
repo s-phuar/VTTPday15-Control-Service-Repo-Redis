@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Nexus</title>
+</head>
+<body>
+
+    <h1>Carts for: <span data-th-text="${userId}"></span></h1>
+    <ol>
+        <!-- {ids} being a Set<String> of contacts -->
+            <!-- s being status, s.index to print out index -->
+            <li data-th-each="c, s:${cartIds}">
+                <a data-th-href="@{/carts/{cartId}(cartId=${c}, format=${s.index})}" th:text="'Cart ' + ${cartId}">
+                    <h4><code data-th-text="${c}"></code></h4>
+                </a>
+            </li>
+        </ol>
+
+        <form method="POST" action="/carts/create">
+            <table>
+                <tr>
+                    <td>
+                        <button type="submit"> add new cart </button>
+                    </td>
+                 </tr>
+        
+            </table>
+        </form>
+
+    
+</body>
+</html>
