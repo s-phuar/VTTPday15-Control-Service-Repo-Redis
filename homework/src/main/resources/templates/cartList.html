@@ -10,9 +10,10 @@
     <h1>Carts for: <span data-th-text="${userId}"></span></h1>
     <ol>
         <!-- {ids} being a Set<String> of contacts -->
-            <!-- s being status, s.index to print out index -->
-            <li data-th-each="c, s:${cartIds}">
-                <a data-th-href="@{/carts/{cartId}(cartId=${c}, format=${s.index})}" th:text="'Cart ' + ${cartId}">
+            <!-- s being status of the iteration, s.index to print out index (not really necessary) -->
+            <li data-th-each="c, s:${Carts}">
+                <a data-th-href="@{/carts/{cartId}(cartId=${c.key})}" th:text="'Cart: ' + ${c.key} + '  [' + ${c.value.totalQuantity} + ']' ">
+                    <!-- using the toString method in the Cart class -->
                     <h4><code data-th-text="${c}"></code></h4>
                 </a>
             </li>

@@ -1,5 +1,4 @@
-package VTTPday15.workshop;
-
+package VTTPday15.homework;
 
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -11,11 +10,12 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class AppConfig {
-
+    
     private final Logger logger = Logger.getLogger(AppConfig.class.getName());
 
     //injects values from the applcation.properties file into the fields
@@ -60,10 +60,11 @@ public class AppConfig {
         //create the Redis template
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisFac);
+        redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        // redisTemplate.setValueSerializer(new StringRedisSerializer()); //assumed values are all strings
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        // redisTemplate.setHashValueSerializer(new StringRedisSerializer()); //assumed values are all strings
+        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         return redisTemplate;
     }
@@ -103,5 +104,6 @@ public class AppConfig {
     }
 
 
-    
+
+
 }

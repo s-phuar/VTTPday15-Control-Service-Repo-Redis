@@ -1,10 +1,10 @@
-package VTTPday15.workshop;
+package VTTPday15.homework;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WorkshopApplicationTests {
+class HomeworkApplicationTests {
 
 	@Test
 	void contextLoads() {

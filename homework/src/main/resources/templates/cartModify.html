@@ -10,14 +10,18 @@
     <h1>User ID: <span th:text="${userId}"></span></h1>
     <h2>Cart ID: <span th:text="${cartId}"></span></h2>
     <h3>Groceries in Cart</h3>
+    <!-- display current items K:V in the cartMap -->
     <ul>
-        <li th:each="grocery : ${groceries}">
-            <span th:text="'Item: ' + ${grocery.item} + ', Quantity: ' + ${grocery.quantity}"></span>
+        <li th:each="entry : ${cartMap}">
+            <span th:text="'Item: ' + ${entry.key} + ', Quantity: ' + ${entry.value}"></span>
         </li>
     </ul>
 
     <h3>Add New Grocery</h3>
-    <form action="/carts/{cartId}/add" method="POST">
+    <br></br>
+    <br></br>
+    <!-- <form th:action="@{/carts/{cartId}/add(cartId=${cartId})}" method="POST"> -->
+    <form th:action="@{'/carts/' + ${cartId} + '/add'}" method="POST">
         <label for="item">Item Name:</label>
         <input type="text" id="item" name="item" required>
         
@@ -26,13 +30,13 @@
         
         <button type="submit">Add to Cart</button>
     </form>
-
-    <form th:action="@{/carts/{cartId}/save(cartId=${cartId})}" method="POST">
+    <br></br>
+    <form th:action="@{/carts/save}" method="GET">
         <button type="submit">Save Cart and Return</button>
     </form>
     
 
-    <a href="/carts">Back to Cart List</a>
+    <!-- <a href="/carts">Back to Cart List</a> -->
 
 </body>
 </html>
