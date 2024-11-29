@@ -30,11 +30,13 @@ public class CartRepository {
     }
 
     //hkeys {userId}
+    //returns all carts for that userId
     public Set<String> getAllCartIds(String userId){
         HashOperations<String, String, Object> hashOps = template.opsForHash();
         return hashOps.keys(userId); //return all field keys (cartId) for a specific userId
     }
 
+    //hget {userId} {531ffe5a}
     //return specific cart object holding Set of Maps(K:V)
     public Cart getSpecCart (String userId, String cartId){
         HashOperations<String, String, Object> hashOps = template.opsForHash();

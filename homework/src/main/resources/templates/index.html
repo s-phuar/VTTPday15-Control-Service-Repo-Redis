@@ -9,11 +9,15 @@
 
     <h1>Welcome to Costco</h1>
     
-    <form method="POST" action="/carts">
+    <form method="POST" action="/carts" data-th-object="${user}">
         <table>
             <tr>
                 <td>User ID:</td>
-                <td><input type="text" name="userId" required></td>
+                <td><input type="text" data-th-field="*{userId}" required></td>
+                <p data-th-if ="${#fields.hasErrors('userId')}"
+                    data-th-text="${#fields.errors('userId')}">
+                    <!-- data-th-text="${#fields.errors('userId')}"> -->
+                </p>
             </tr>
             <tr>
                 <td></td>
