@@ -18,7 +18,7 @@ import VTTPday15.inclass.model.Contact;
 //used to interact with the database via Create/Read/Update/Delete operations
 //basically data access layer
 //RedisTemplate is high-level abstraction, allows us to interact with Redis in a generic way
-//HashOperations is a specialized interaface, allows us to interact with Redis "hashes" e.g. key value pairs
+//HashOperations is a specialized interface, allows us to interact with Redis "hashes" e.g. key value pairs
     //HashOperations<String, String, Object> hashOps = template.opsForHash();
     // hashOps.put("contact:1", "name", "Sam");  -> put key:name and value:Sam in the hash "key" (contact:1)
     // hashOps.put("contact:1", "email", "sam@gmail.com");
@@ -48,6 +48,7 @@ public class ContactRepository {
         HashOperations<String, String, Object> hashOps = template.opsForHash(); 
         //retrieves all keys(name/email/phone) and values(sam/sam@gmail/999) of the Redis hash assocaited with the specific UUID
         //UUID being the map's name
+        //hgetall {id}
         Map<String, Object> contact = hashOps.entries(id); 
 
         if(contact.isEmpty()){

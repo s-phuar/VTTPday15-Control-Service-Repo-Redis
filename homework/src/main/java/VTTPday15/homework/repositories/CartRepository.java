@@ -30,7 +30,7 @@ public class CartRepository {
     }
 
     //hkeys {userId}
-    //returns all carts for that userId
+    //returns all cartIds for that userId (map name)
     public Set<String> getAllCartIds(String userId){
         HashOperations<String, String, Object> hashOps = template.opsForHash();
         return hashOps.keys(userId); //return all field keys (cartId) for a specific userId
@@ -44,6 +44,7 @@ public class CartRepository {
         return (Cart) hashOps.get(userId, cartId); //should return cart object (BUT it doeeeeeeeeeeenst)
     }
 
+    //hgetall {userId}
     public Map<String, Object> getCartMap(String userId){
         HashOperations<String, String, Object> hashOps = template.opsForHash();
 
